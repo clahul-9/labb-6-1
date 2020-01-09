@@ -10,31 +10,31 @@ DoublyLinkedList::DoublyLinkedList()
 
 
 bool DoublyLinkedList::add(Node* data, int pos) {
-	if ((pos>=0 ||pos<this->search(tail))&&size()>0)
+
+	if (pos>=0 && pos<size()-1)
 	{
-		Node* ptr = head;
-		for (int i = 0; i < pos; i++)
-		{
-			ptr = nodeAt(i)->getNext();
-			if (i==pos-1)
-			{
-				data->setNext(nodeAt(i + 1)->getPrev());
-				data->setPrev(nodeAt(i)->getNext());
-				ptr->setNext(data->getPrev());
-				return true;
-			}
-		}
+		nodeAt(pos + 1)->setPrev(data);
+		data->setNext(nodeAt(pos + 1));
+
+		data->setPrev(nodeAt(pos - 1));
+		nodeAt(pos - 1)->setNext(data);
+		return true;
 	}
 	else if(pos==0||pos==size())
 	{
 		if (size() != 0&&pos==0) {
-			data->setNext(head);
+			nodeAt(pos)->setPrev(data);
+			data->setNext(nodeAt(pos+1));
+			//data->setPrev(nullptr);
 			head = data;
 			return true;
 		}
 		else if(size()!=0&&pos==size())
 		{
-			data->setPrev(tail);
+			data->setPrev(nodeAt(pos-1));
+			nodeAt(pos - 1)->setNext(data);
+
+			//data->setNext(nullptr);
 			tail = data;
 			return true;
 		}
@@ -49,16 +49,28 @@ bool DoublyLinkedList::add(Node* data, int pos) {
 }
 
 bool DoublyLinkedList::remove(int pos){
-	if (pos >= 0 || pos <= this->search(tail)) {
-		for (int i = 0; i <= pos; i++)
+	if (size() > 0)
+	{
+		if (pos>0 && pos<size())
 		{
-			if (i==pos)
-			{
-				nodeAt(i - 1)->setNext(nodeAt(i)->getNext());
-				nodeAt(i + 1)->setPrev(nodeAt(i)->getPrev());
-				nodeAt(i)->~Node();
-				return true;
-			}
+			nodeAt(pos - 1)->setNext(nodeAt(pos+1));
+			nodeAt(pos + 1)->setPrev(nodeAt(pos - 1));
+			nodeAt(pos)->~Node();
+			return true;
+		}
+		else if (pos == 0 )
+		{
+			head = nodeAt(pos+1);
+			nodeAt(pos + 1)->setPrev(nullptr);
+			nodeAt(pos)->~Node();
+			return true;
+		}
+		else if (pos==size())
+		{
+			tail = nodeAt(pos - 1);
+			nodeAt(pos - 1)->setNext(nullptr);
+			nodeAt(pos)->~Node();
+			return true;
 		}
 	}
 	return false;

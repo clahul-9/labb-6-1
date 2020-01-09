@@ -23,10 +23,11 @@ int main() {
 
 	DoublyLinkedList lista;
 	
-	add(lista,n1, 1);
 	add(lista, n1, 0);
+	add(lista, n2, 1);
 
-	remove(lista, 0);
+
+	//remove(lista, 0);
 
 
 	system("pause");
