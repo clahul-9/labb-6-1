@@ -5,8 +5,13 @@
 
 void add(DoublyLinkedList list, Node node, int pos) {
 
-	if (list.add(&node, pos) == 0) { std::cout << "Error: Node could not be added" << std::endl; }
-	else if (list.add(&node, pos) == 1) { list.display_forward(); }
+	
+	if (list.add(&node, pos) == 1)
+	{ list.display_forward(); }
+	else if (list.add(&node, pos) == 0)
+	{
+		std::cout << "Error: Node could not be added" << std::endl;
+	}
 	else { std::cout << "Error: Something went wrong" << std::endl; }
 }
 void remove(DoublyLinkedList list, int pos) {
@@ -24,7 +29,7 @@ int main() {
 	DoublyLinkedList lista;
 	
 	add(lista, n1, 0);
-	add(lista, n2, 1);
+	add(lista, n2, 0);
 
 
 	//remove(lista, 0);

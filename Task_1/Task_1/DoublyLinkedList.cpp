@@ -11,30 +11,30 @@ DoublyLinkedList::DoublyLinkedList()
 
 bool DoublyLinkedList::add(Node* data, int pos) {
 
-	if (pos>=0 && pos<size()-1)
+	if (pos>0 && pos<size())
 	{
-		nodeAt(pos + 1)->setPrev(data);
-		data->setNext(nodeAt(pos + 1));
-
-		data->setPrev(nodeAt(pos - 1));
+		data->setNext(nodeAt(pos));
 		nodeAt(pos - 1)->setNext(data);
+
+		nodeAt(pos + 1)->setPrev(data);
+		data->setPrev(nodeAt(pos - 1));
 		return true;
 	}
 	else if(pos==0||pos==size())
 	{
 		if (size() != 0&&pos==0) {
-			nodeAt(pos)->setPrev(data);
-			data->setNext(nodeAt(pos+1));
-			//data->setPrev(nullptr);
+			data->setNext(nodeAt(pos));
+			//std::cout<<"data:" <<data->getData()<<" nAt:"<< nodeAt(pos)->getData() << "\n";
+			nodeAt(pos+1)->setPrev(data);
+			
 			head = data;
 			return true;
 		}
 		else if(size()!=0&&pos==size())
 		{
+			nodeAt(pos)->setNext(data);
 			data->setPrev(nodeAt(pos-1));
-			nodeAt(pos - 1)->setNext(data);
 
-			//data->setNext(nullptr);
 			tail = data;
 			return true;
 		}
@@ -114,12 +114,13 @@ Node* DoublyLinkedList::nodeAt(int pos) {
 		}
 		ptr = ptr->getNext();
 	}
+	//return nullptr;
 }
 
 void DoublyLinkedList::display_forward() {
 	Node* ptr = head;
 
-	for (int i = 0; i < this->size(); i++)
+	for (int i = 0; i <= size(); i++)
 	{
 		std::cout<<ptr->getData()<< ", ";
 		ptr = ptr->getNext();
@@ -141,13 +142,14 @@ int DoublyLinkedList::size(){
 	int nr = 0;
 	if (head != nullptr) {
 		Node* ptr = head;
-		while (ptr != nullptr)
+		while (ptr != tail)
 		{
 			nr++;
 			ptr = ptr->getNext();
 		}
+		return nr + 1;
 	}
-	return nr;
+	return 0;
 }
 
 
